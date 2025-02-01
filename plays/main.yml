@@ -1,10 +1,11 @@
 #! /usr/bin/env ansible-playbook
-# Configure template role
+# Configure kopia role
 # Replace 'all' with your own inventory group
 ---
-- name: template | template role
+- name: kopia | backup software
   hosts: all
   roles:
-  - role: template
+  - role: kopia
     tags:
-    - template
+    - kopia
+    - backup

@@ -1,1 +1,6 @@
 ---
+kopia_keyring: /etc/apt/trusted.gpg.d/kopia.asc
+kopia_key_url: "https://kopia.io/signing-key"
+kopia_repo_url: "http://packages.kopia.io/apt/"
+kopia_repo: "deb [signed-by={{ R_cran_keyring }}] {{ kopia_repo_url }} stable main"
+

@@ -1,1 +1,43 @@
 ---
+
+- name: kopia | APT key
+  tags:
+  - apt
+  get_url:
+    url: "{{ kopia_key_url }}"
+    dest: "{{ kopia_keyring }}"
+
+- name: kopia | repository
+  tags:
+  - apt
+  apt_repository:
+    repo: "{{ kopia_repo }}"
+    filename: kopia
+
+- name: kopia | package
+  tags:
+  - package
+  package:
+    name: kopia
+
+- name: kopia | config
+  tags:
+  - config
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/kopia/{{ item }}"
+    mode: 0640
+  loop:
+  - repository.config
+
+- name: kopia | cron
+  tags:
+  - cron
+  cron:
+    name: 'kopia cron'
+    cron_file: kopia
+    user: root
+    minute: "{{ 59 | random(seed=inventory_hostname) }}"
+    hour: '*/20'
+    job: 'kopia snapshot create / --tags=trigger:cron'
+

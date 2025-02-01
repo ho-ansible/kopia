@@ -1,1 +1,19 @@
 ---
+- name: kopia | uninstall packages
+  package:
+    name: kopia
+    state: absent
+
+- name: kopia | remove repo
+  apt_repository:
+    repo: "{{ kopia_repo }}"
+    filename: kopia
+    state: absent
+
+- name: kopia | remove files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+  - /etc/kopia
+  - /etc/cron.d/kopia
